@@ -1,5 +1,10 @@
 // Copyright (c) 2020 Edward C. Epp. All rights reserved.
 //
+// This opCode recognizes and displays the names of objects used in 
+// FIRST Tech Challenges (FTC) Rover Ruckus. It focuses on a
+// simple implementation at the expense of established BKMs (Best Know 
+// Methods).
+//
 // The goal is to permit redistribution in source and binary forms. 
 // Enhancements, corrections and other modification will be encouraged. 
 // Authorship must be acknowledged  and the 
@@ -24,7 +29,7 @@
 //     * Manage hardware configurations
 //   Basic Java skills
 //     * Selection: if and switch
-//     * Interation: while and for 
+//     * Iteration: while and for 
 //     * Using objects and classes
 //     * Create methods
 //
