@@ -1,11 +1,14 @@
 // Copyright (c) 2020 Edward C. Epp. All rights reserved.
 //
-// This opCode recognizes the objects it detects. If it is 
-// a gold minieral it will compute how far it is from the  
-// horizonal center of the screen.
+// This opCode adds an action to detecting a gold mineral. It 
+// reports the position of the gold mineral in relation
+// to its horizontal position on the display.
 //
-// It focuses on a simple implementation at the expense of 
-// established BKMs (Best Know Methods).
+// Enhacements to the ObjectDetection example include:
+// * Include a while opModeIsActive loop to enable continuous monitoring
+// * Report postion of gold mineral.
+// * Name constant values to aid understanding and modification.
+// * Implement an initialization method to manage complexity 
 //
 // The goal is to permit redistribution in source and binary forms. 
 // Enhancements, corrections and other modification will be encouraged. 
@@ -13,13 +16,7 @@
 // code may not be used for commercial purposes. Details, language 
 // and license will be worked out.
 //
-// DISCLAIMER: This code does not follow best practices for error
-// handling, concept abstraction or general coding. It is presented
-// in this simplified linear form to avoid cognitive  overload. 
-// These defects will be addressed in future versions. The author 
-// suggests using best practices and outline in future versions 
-// to avoid unfavorable judge evaluations.
-//
+// DISCLAIMER: 
 // The coding and teaching practices that appear represent the authors
 // 20 years of teaching and 15 years in industry. They do not represent
 // universal agreement about what is best.
@@ -41,9 +38,14 @@
 package org.firstinspires.ftc.teamcode;
 
 import java.util.List;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.robot.RobotState;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -51,63 +53,45 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "Recognize a Rover Ruckus Object", group = "Concept")
+@Autonomous(name = "Recognize gold mineral location", group = "Concept")
+//@Disabled
 
 public class ObjectRecognitionEpp extends LinearOpMode
 {
-  private static final int SCREEN_WIDTH   = 1280;
-  private static final String VUFORIA_KEY = "AY2Daiz/////AAABmYb00Vop7EAWqs/eRSieR19M5zxWECKfF05bE/xrCZXcvuMIT5zW88kcMPbUb2Bh/yA1O30q1tiOUQBj1TAXbCj4eRSLWWaYrxAYm+0Y1093z7T4uMbD0S+R/JXJAg/Siy8ALkMXiJWDA16H7GmOz1xqSb8v7R77hxcFP82xpmMk3kp4145aqeSzRI2UhyETgYqwAyQB8rtgbfRa0w+iG+A8F47Lwroq2g4PHgVZ5qHv6YDpz2Krw8StYEDoF1PtANTyNPWpGs9aABZakCBlXoZlzixwCoqZHpmS3RrkMyGRER+74aIDk2u+RJOf6DDDa5SHKdpCr24QVrV2W0AwoP6Fvpdm9rfTZ7nYYs7lk7ol";
+    /****************************** constants **************************/
+    /****************************** constants **************************/
+
+    private static final String TFOD_MODEL_ASSET     = "RoverRuckus.tflite";
+    private static final String LABEL_GOLD_MINERAL   = "Gold Mineral";
+    private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
+
+    private static final int SCREEN_WIDTH   = 1280;
+    private static final String VUFORIA_KEY = "AY2Daiz/////AAABmYb00Vop7EAWqs/eRSieR19M5zxWECKfF05bE/xrCZXcvuMIT5zW88kcMPbUb2Bh/yA1O30q1tiOUQBj1TAXbCj4eRSLWWaYrxAYm+0Y1093z7T4uMbD0S+R/JXJAg/Siy8ALkMXiJWDA16H7GmOz1xqSb8v7R77hxcFP82xpmMk3kp4145aqeSzRI2UhyETgYqwAyQB8rtgbfRa0w+iG+A8F47Lwroq2g4PHgVZ5qHv6YDpz2Krw8StYEDoF1PtANTyNPWpGs9aABZakCBlXoZlzixwCoqZHpmS3RrkMyGRER+74aIDk2u+RJOf6DDDa5SHKdpCr24QVrV2W0AwoP6Fvpdm9rfTZ7nYYs7lk7ol";
+
+    /****************************** member variables *******************/
+    /****************************** member variables *******************/
+
+    // The Vuforia localization engine.
+    private VuforiaLocalizer myVuforia = null;
+
+    // The Tensor Flow Object Detection engine.
+    private TFObjectDetector myTfod = null;
+
+    // links to the physical robot driver motors
+    DcMotorEx myLeftMotor  = null;
+    DcMotorEx myRightMotor = null;
 
   // ********** RunOpMode
   // Our execution entry point 
   
   public void runOpMode () 
   {
-
-    // Specify the Vuforia license key that gives us
-    // permission to use their software. 
-    // Indicate which camera we intend to use. 
-    // Bundle this information into a list of parameters.
-
-    VuforiaLocalizer.Parameters parameters = new
-                  VuforiaLocalizer.Parameters();
-
-    parameters.vuforiaLicenseKey = VUFORIA_KEY;
-    parameters.cameraDirection   = CameraDirection.BACK;
-
-    // Create the Vuforia viewing engine specified by our parameters
-
-    VuforiaLocalizer  myVuforia =     
-        ClassFactory.getInstance().createVuforia(parameters);
-
-    // Get the id for the monitor that will be used to view
-    // the camera's image so we can see it.
-    int tfodMonitorViewId =
-          hardwareMap.appContext.getResources().getIdentifier(
-          "tfodMonitorViewId", "id", 
-          hardwareMap.appContext.getPackageName());
-  
-    // Create a Rover Ruckus object detector
-    TFObjectDetector.Parameters tfodParameters = new 
-        TFObjectDetector.Parameters(tfodMonitorViewId);
-
-    // Create the TensorFlow Object Detector
-    TFObjectDetector myTfod =  
-        ClassFactory.getInstance().createTFObjectDetector(
-            tfodParameters, myVuforia);
-
-
-    // Load the model trained for the Rover Ruckus challenge.
-    // It recognizes two objects. Give them meaningful names
-    myTfod.loadModelFromAsset("RoverRuckus.tflite", 
-          "Gold Mineral", "Silver Mineral");
-
-    // Start up camera and Tensorflow Ojbect Detector. You should
-    // be able to see the recognized objects in the monitor
-    myTfod.activate();
+    // intialize object detector and motors
+    initVuforia();
+    initTfod();
 
     // Wait for start 
-    telemetry.addData(">", "Press play: 20200824a");
+    telemetry.addData(">", "Press play: 20200827a");
     telemetry.update();
     waitForStart();
 
@@ -119,29 +103,109 @@ public class ObjectRecognitionEpp extends LinearOpMode
         List<Recognition> updatedRecognitions = 
                             myTfod.getUpdatedRecognitions();
 
-        // Go through the list of recognized objects one-by-one and tell us 
-        // the distance of the gold minerals from center
-        for (Recognition recognition : updatedRecognitions) 
+        // Make sure we have a list of recognized objects
+        if (updatedRecognitions != null)
         {
-            // Respond to gold mineral find
-            if (recognition.getLabel().equals("Gold Mineral")) 
+            // Go through the list of recognized objects one-by-one and tell us 
+            // the distance of the gold minerals from center
+            for (Recognition recognition : updatedRecognitions) 
             {
-                int goldMineralLeftX = (int) recognition.getLeft();
-                int goldMineralRightX = (int) recognition.getRight();
-                int goldMineralCenterX = (goldMineralLeftX + goldMineralRightX) / 2;
-                int error = goldMineralCenterX - SCREEN_WIDTH / 2;
-                telemetry.addData ("Status: ", "Gold location error " + error);
-            }
+                // Respond to gold mineral find
+                if (recognition.getLabel().equals("Gold Mineral")) 
+                {
+                    int goldMineralLeftX = (int) recognition.getLeft();
+                    int goldMineralRightX = (int) recognition.getRight();
+                    int goldMineralCenterX = (goldMineralLeftX + goldMineralRightX) / 2;
+                    int error = goldMineralCenterX - SCREEN_WIDTH / 2;
+                    telemetry.addData ("Status: ", "Gold location error " + error);
+                }
             
-            // Respond to silever mineral find
-            else
-            {
-                telemetry.addData ("Status: ", "Ignore the silver minerals");
-            }            
+                // Respond to silever mineral find
+                else
+                {
+                    telemetry.addData ("Status: ", "Ignore the silver minerals");
+                } 
+            }
+        }
+        else
+        {
+            telemetry.addData ("Status: ", "Nothing recognized");
         }
         telemetry.update();
         sleep (2000);  // Pause 2 seconds so we can read the status
+      }
     }
-    telemetry.update();
-  }
+  
+    // ********** initVuforia helper
+    // Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+    // Configure the phone to use the rear camera.
+
+    private void initVuforia() 
+    {
+        // Specify the Vuforia license key that gives us
+        // permission to use their software. 
+        // Indicate which camera we intend to use. 
+        // Bundle this information into a list of parameters.
+
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraDirection = CameraDirection.BACK;
+
+        // Create the Vuforia viewing engine specified by our parameters
+        myVuforia = ClassFactory.getInstance().createVuforia(parameters);
+
+        // Exit the program if we couldn't create the engine
+        if (myVuforia == null)
+        {
+            telemetry.addData("ERROR", "the Vuforia engine did not initialize");
+            sleep(2000);
+            System.exit(1);
+        }
+    }
+
+    // ********** initTfod helper
+    // Initialize the Tensor Flow Object Detection engine.
+
+    private void initTfod() 
+    {
+        // Determine if the Robot Controller is capable of supporting
+        // Tensorflow
+        if (ClassFactory.getInstance().canCreateTFObjectDetector()) 
+        {
+            // Get the id for the monitor that will be used to view
+            // the camera's image so we can see it.
+            int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                    "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+            // Create the TensorFlow Object Detector
+            TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+            myTfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, myVuforia);
+
+            // Load the model trained for the Rover Ruckus challenge.
+            // It recognizes two objects. Give them meaningful names
+            myTfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+
+            if (myTfod == null) 
+            {
+                telemetry.addData("ERROR: ", "TensorFlow lite did not activate");
+                sleep(2000);
+                System.exit(1);
+            }
+
+            // Start detection - Camera stream should be on the monitor 
+            else
+            {
+                myTfod.activate();
+            } 
+        }
+ 
+        // The Robot Control is not capable so exit
+        else {
+            telemetry.addData("ERROR: ", "This device is not compatible with TFOD");
+            sleep(2000);
+            System.exit(1);
+        }
+    }
+
 }

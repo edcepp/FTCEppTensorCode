@@ -3,8 +3,9 @@
 // This opCode adds an action to detecting a gold mineral. The 
 // robot attempts to orient itself facing a gold game piece.
 //
-// It focuses on a simple implementation at the expense of 
-// established BKMs (Best Know Methods).
+// Enhacements to the ObjectDetection example include:
+// * Include motor handling methods.
+// * Turn toward the gold mineral.
 //
 // The goal is to permit redistribution in source and binary forms. 
 // Enhancements, corrections and other modification will be encouraged. 
@@ -12,13 +13,7 @@
 // code may not be used for commercial purposes. Details, language 
 // and license will be worked out.
 //
-// DISCLAIMER: This code does not follow best practices for error
-// handling, concept abstraction or general coding. It is presented
-// in this simplified linear form to avoid cognitive  overload. 
-// These defects will be addressed in future versions. The author 
-// suggests using best practices and outline in future versions 
-// to avoid unfavorable judge evaluations.
-//
+// DISCLAIMER:
 // The coding and teaching practices that appear represent the authors
 // 20 years of teaching and 15 years in industry. They do not represent
 // universal agreement about what is best.
@@ -40,6 +35,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import java.util.List;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.robot.RobotState;
@@ -55,6 +51,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @Autonomous(name = "Orient toward gold mineral", group = "Concept")
+//@Disabled
 
 public class OrientToGoldEpp extends LinearOpMode
 {

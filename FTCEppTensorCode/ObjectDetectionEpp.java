@@ -39,6 +39,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import java.util.List;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -50,6 +51,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
 @Autonomous(name = "Detect Rover Ruckus Object", group = "Concept")
+//@Disabled
 
 public class ObjectDetectionEpp extends LinearOpMode
 {
