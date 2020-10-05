@@ -63,7 +63,7 @@ public class OrientToGoldEpp extends LinearOpMode
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
     private static final int SCREEN_WIDTH   = 1280;
-    private static final String VUFORIA_KEY = "AY2Daiz/////AAABmYb00Vop7EAWqs/eRSieR19M5zxWECKfF05bE/xrCZXcvuMIT5zW88kcMPbUb2Bh/yA1O30q1tiOUQBj1TAXbCj4eRSLWWaYrxAYm+0Y1093z7T4uMbD0S+R/JXJAg/Siy8ALkMXiJWDA16H7GmOz1xqSb8v7R77hxcFP82xpmMk3kp4145aqeSzRI2UhyETgYqwAyQB8rtgbfRa0w+iG+A8F47Lwroq2g4PHgVZ5qHv6YDpz2Krw8StYEDoF1PtANTyNPWpGs9aABZakCBlXoZlzixwCoqZHpmS3RrkMyGRER+74aIDk2u+RJOf6DDDa5SHKdpCr24QVrV2W0AwoP6Fvpdm9rfTZ7nYYs7lk7ol";
+    private static final String VUFORIA_KEY = "AY2Daiz/////Enter your key";
 
     // Velocity in counts per second
     private static final int MAX_VELOCITY = 600;
