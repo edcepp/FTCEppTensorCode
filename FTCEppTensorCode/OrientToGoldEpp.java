@@ -119,10 +119,10 @@ public class OrientToGoldEpp extends LinearOpMode
                     int goldMineralLeftX = (int) recognition.getLeft();
                     int goldMineralRightX = (int) recognition.getRight();
                     int goldMineralCenterX = (goldMineralLeftX + goldMineralRightX) / 2;
-                    int error = goldMineralCenterX - SCREEN_WIDTH / 2;
-                    //telemetry.addData ("Status: ", "Gold location error " + error);
+                    int offset = goldMineralCenterX - SCREEN_WIDTH / 2;
+                    telemetry.addData ("Status: ", "Gold location offset " + offset);
                 
-                    int turn_clicks = error / TURN_DIVIDE;
+                    int turn_clicks = offset / TURN_DIVIDE;
                     moveFor(turn_clicks, -turn_clicks);
                     
                     // Skip the rest of the list because we fouund
@@ -130,7 +130,7 @@ public class OrientToGoldEpp extends LinearOpMode
                     break;  
                 }
             
-                // Respond to silever mineral find
+                // Respond to silver mineral find
                 else
                 {
                     telemetry.addData ("Status: ", "Ignore the silver minerals");
@@ -139,7 +139,7 @@ public class OrientToGoldEpp extends LinearOpMode
         }
         else
         {
-            telemetry.addData ("Status: ", "Nothing recognized");
+            telemetry.addData ("Status: ", "No recognition changes");
         }
         telemetry.update();
         //sleep (2000);  // Pause 2 seconds so we can read the status
@@ -250,8 +250,6 @@ public class OrientToGoldEpp extends LinearOpMode
         myRightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         myLeftMotor.setVelocity(MID_VELOCITY);
         myRightMotor.setVelocity(MID_VELOCITY);
-        //myLeftMotor.setPower(0.75);
-        //myRightMotor.setPower(0.75);
         while (opModeIsActive() && myRightMotor.isBusy()) 
         {
             idle();

@@ -53,7 +53,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.Came
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 
-@Autonomous(name = "Compute gold mineral location", group = "Concept")
+@Autonomous(name = "Compute turn offset", group = "Concept")
 //@Disabled
 
 public class ComputeTurnEpp extends LinearOpMode
@@ -116,8 +116,8 @@ public class ComputeTurnEpp extends LinearOpMode
                     int goldMineralLeftX = (int) recognition.getLeft();
                     int goldMineralRightX = (int) recognition.getRight();
                     int goldMineralCenterX = (goldMineralLeftX + goldMineralRightX) / 2;
-                    int error = goldMineralCenterX - SCREEN_WIDTH / 2;
-                    telemetry.addData ("Status ", "Gold location error " + error);
+                    int offset = goldMineralCenterX - SCREEN_WIDTH / 2;
+                    telemetry.addData ("Status ", "Gold location offset " + offset);
                 }
             
                 // Respond to silver mineral find
