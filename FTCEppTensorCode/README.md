@@ -14,3 +14,8 @@ LinkedIn has identified the Machine Learning Engineer as one of the five top eme
  - [ObjectDetectionEpp.java](https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/ObjectDetectionEpp.java)
 
  - [ComputeTurnEpp.java](https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/ComputeTurnEpp.java)
+
+- [Locate Gold Mineral And Push Demo Video](https://youtu.be/GBGK6WiEGt4)
+
+ 
+ 
