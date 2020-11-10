@@ -9,8 +9,7 @@ Example code illustrates using TensorFlow for the Rover Ruckus challenge. It is 
 ![Move Gold Mineral Steps](Steps.png)
 --->
 
-<img src="SkystoneRec.png" width="300"/>
-<img src="Steps.png" width="200"/>
+<img src="SkystoneRec.png" width="350"/>  <img src="Steps.png" width="250"/>
 
 ## Object Detection with TensorFlow 
 
