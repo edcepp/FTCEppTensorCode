@@ -4,10 +4,13 @@ LinkedIn has identified the Machine Learning Engineer as one of the five top eme
 
 Example code illustrates using TensorFlow for the Rover Ruckus challenge. It is easily modified to recognize objects for any current challenge. My goal is to show you how Tensorflow can be applied to FTC. It is your job to do those modification. 
 
+<!---
 ![Skystone Recognition](SkystoneRec.png)
 ![Move Gold Mineral Steps](Steps.png)
+--->
 
-<img src="SkystoneRec.png"/>
+<img src="SkystoneRec.png" width="300"/>
+<img src="Steps.png" width="200"/>
 
 ## Object Detection with TensorFlow 
 
@@ -65,4 +68,12 @@ The code in this section completes the goals to point Rover Ruckus challenge to 
 ### Code
  
   - [LocateGoldAndPushLinearMinninEpp.java](https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/LocateGoldAndPushLinearMinniEpp.java)
+
+## Resource and Implementation Notes
+
+The author maintains his resource and implemetation notes on his home media server. You may find some of them of help. 
+
+Disclaimer: Information on the following wiki are there for the author's use and may not be complete or accorate.
+
+- [Author's FTC 2020 Wiki Site](http://zdome.net:/wiki/index.php/FTC_2020)
 
