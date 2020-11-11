@@ -4,7 +4,7 @@ LinkedIn has identified the Machine Learning Engineer as one of the five top eme
 
 My goal is to show you how to apply TensorFlow to FIRST Tech Challenges. I have written these demos to work with Rover Ruckus and to solve part of its challenge. Changing the program to recognizes objects from other challenges is a matter of changing the name of the model file in the loadModelFromAsset method call. My job is to show you how to do this for Rover Ruckus. Your job is to modify the program to load the model for the current challenge. 
 
-I wish you good luck and hope you had as much fun as I have.
+I wish you good luck and hope you have as much fun as I have.
 
 Ed  
 Dr. Edward C. Epp  
