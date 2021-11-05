@@ -41,17 +41,27 @@ A YouTube demo of the TensorFlow code in action can be found at:
 
 ### Presentation Slides
 
-The PowerPoint slides used in the tutorial to explain object detection is found in the PDF file FTCOjectDetectionWOffset30.pdf at:
+The PowerPoint slides used in the 2020 video tutorial to explain object detection are found in the PDF file FTCOjectDetectionWOffset30.pdf at:
 
-- [Tutorial Slides](https://drive.google.com/file/d/17m7KTk_3dXme-aBUYMyznHNLZDZ3_Imc/view?usp=sharing)
+- [Video Tutorial Slides](https://drive.google.com/file/d/17m7KTk_3dXme-aBUYMyznHNLZDZ3_Imc/view?usp=sharing)
 
-### Code
+The PowerPoint hands-on slides used in the October 23, 2021 ORTOP FIRST Fair are found in the PDF file FTCObjectDectionHandsOn100Download.pdf at:
+
+- [Hands-on Tutorial Slides](https://drive.google.com/file/d/1kpgT7OyKwnajkTZWaBwnLGgEjp2ezbkk/view)
+
+### 2020 Code for Video Presentaion
 
 The TensorFlow object detection and turn offset computation Java code is found in this GitHub directory in the file ObjectDetetionEpp.java
 
   - [ObjectDetectionEpp.java](https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/ObjectDetectionEpp.java)
 
   - [ComputeTurnEpp.java](https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/ComputeTurnEpp.java)
+
+### 2021 Freight Frenight Frenzy Code for the Hands-on Tutorial
+
+  - [TestTensorFlowObjectDectionWebcamEpp.java] (https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/TestTensorFlowObjectDetectionWebcamEpp.java)
+
+### 2021 Code for Hands-on Tutorial
 
 
 ## Orient Robot Toward Gold Mineral
