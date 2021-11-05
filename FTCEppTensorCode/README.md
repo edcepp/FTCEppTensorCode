@@ -59,7 +59,7 @@ The TensorFlow object detection and turn offset computation Java code is found i
 
 ### 2021 Freight Frenight Frenzy Code for the Hands-on Tutorial
 
-  - [TestTensorFlowObjectDectionWebcamEpp.java] (https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/TestTensorFlowObjectDetectionWebcamEpp.java)
+  - [TestTensorFlowObjectDectionWebcamEpp.java(https://github.com/edcepp/FTCEppTensorCode/blob/master/FTCEppTensorCode/TestTensorFlowObjectDetectionWebcamEpp.java)
 
 ### 2021 Code for Hands-on Tutorial
 
