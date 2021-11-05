@@ -14,6 +14,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.State;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
@@ -28,6 +29,7 @@ import com.vuforia.Vuforia;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 
@@ -41,18 +43,27 @@ import static org.firstinspires.ftc.teamcode.LocateGoldAndPushLinearMinniEpp.Rov
 import static org.firstinspires.ftc.teamcode.LocateGoldAndPushLinearMinniEpp.RoverState.TEST;
 import static org.firstinspires.ftc.teamcode.LocateGoldAndPushLinearMinniEpp.RoverState.ERROR;
 
-@Autonomous(name = "Locate Gold And Push Minni", group = "Concept")
+@Autonomous(name = "Epp Locate Gold And Push Minni", group = "Concept")
 //@Disabled
 public class LocateGoldAndPushLinearMinniEpp extends LinearOpMode {
 
     /****************************** constants **************************/
     /****************************** constants **************************/
 
-    private static final String TFOD_MODEL_ASSET     = "RoverRuckus.tflite";
-    private static final String LABEL_GOLD_MINERAL   = "Gold Mineral";
+    //private static final String TFOD_MODEL_ASSET     = "RoverRuckus.tflite";
+    private static final String TFOD_MODEL_ASSET     = "FreightFrenzy_BCDM.tflite";
+    private static final String[] LABELS = {
+      "Ball",
+      "Cube",
+      "Duck",
+      "Marker"
+    };
+    //private static final String LABEL_GOLD_MINERAL   = "Gold Mineral";
+    private static final String LABEL_GOLD_MINERAL   = "Cube";
     private static final String LABEL_SILVER_MINERAL = "Silver Mineral";
 
-    private static final int SCREEN_WIDTH        = 1280;
+    //private static final int SCREEN_WIDTH        = 1280;
+    private static final int SCREEN_WIDTH        = 640;
     private static final int SCREEN_HEIGHT       =  720;
     private static final int POINTING_TOLERANCE  =   50;
 
@@ -93,7 +104,7 @@ public class LocateGoldAndPushLinearMinniEpp extends LinearOpMode {
     }
 
     // This Vuforia key is for exclusive use by Ed C. Epp
-    private static final String VUFORIA_KEY = "AY2Daiz/////Enter your key";
+    private static final String VUFORIA_KEY = "AY2Daiz/////AAABmYb00Vop7EAWqs/eRSieR19M5zxWECKfF05bE/xrCZXcvuMIT5zW88kcMPbUb2Bh/yA1 get your own key";
 
     /****************************** member variables *******************/
     /****************************** member variables *******************/
@@ -188,7 +199,8 @@ public class LocateGoldAndPushLinearMinniEpp extends LinearOpMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraDirection = CameraDirection.BACK;
+        //parameters.cameraDirection = CameraDirection.BACK;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
 
         //  Instantiate the Vuforia engine
         myVuforia = ClassFactory.getInstance().createVuforia(parameters);
@@ -205,13 +217,17 @@ public class LocateGoldAndPushLinearMinniEpp extends LinearOpMode {
 
     private void initTfod() 
     {
-        if (ClassFactory.getInstance().canCreateTFObjectDetector()) 
-        {
+    //    if (ClassFactory.getInstance().canCreateTFObjectDetector()) 
+    //    {
             int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
                     "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+            tfodParameters.minResultConfidence = 0.8f;
+            tfodParameters.isModelTensorFlow2 = true;
+            tfodParameters.inputSize = 320;
             myTfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, myVuforia);
-            myTfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+            //myTfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_GOLD_MINERAL, LABEL_SILVER_MINERAL);
+            myTfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABELS);
 
             if (myTfod != null) 
             {
@@ -222,13 +238,13 @@ public class LocateGoldAndPushLinearMinniEpp extends LinearOpMode {
                 telemetry.addData("ERROR", "TensorFlow lite did not activate");
                 myRobotState = ERROR;
             }
-        }
+    //    }
 
-        else 
-        {
-            telemetry.addData("ERROR", "This device is not compatible with TFOD");
-            myRobotState = ERROR;
-        }
+    //    else 
+    //    {
+    //        telemetry.addData("ERROR", "This device is not compatible with TFOD");
+    //        myRobotState = ERROR;
+    //    }
     }
 
     // ********** initMotors helper
