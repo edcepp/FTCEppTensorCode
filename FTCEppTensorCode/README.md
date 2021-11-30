@@ -93,4 +93,10 @@ Disclaimer: Information on the following wiki are there for the author's use and
 
 - [Author's FTC 2020 Wiki Site](http://zdome.net:/wiki/index.php/FTC_2020)
 
+# Gavin's Retraining Model Notes 
 
+Benson High School - FTC Team 187 - 2019-2020 SkyStone Challenge
+
+Goal: Address the problem with the model that FIRST supplied with the app. "We found that the detection boxes expanded over multiple stones if they were right next to each other."
+
+- [Retraining TensorFlow Model](https://drive.google.com/file/d/1KGKnAMGynV2RBfc_OfE_3ls8EnKeU_v8/view?usp=sharing)
